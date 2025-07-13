@@ -1,0 +1,71 @@
+.home-container {
+  background-image: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+}
+
+.home-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.brand {
+  color: #00d9ff;
+}
+
+.home-content p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #ddd;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.btn.primary {
+  background-color: #00d9ff;
+  color: #000;
+}
+
+.btn.primary:hover {
+  background-color: #00aacc;
+}
+
+.btn.secondary {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #00d9ff;
+}
+
+.btn.secondary:hover {
+  background-color: #00d9ff;
+  color: #000;
+}

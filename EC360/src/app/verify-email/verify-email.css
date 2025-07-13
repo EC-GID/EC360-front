@@ -1,0 +1,20 @@
+.verify-container {
+  max-width: 500px;
+  margin: 80px auto;
+  padding: 30px;
+  background-color: #f2f9ff;
+  border: 1px solid #bde0ff;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+  color: #007acc;
+}
+
+p {
+  margin-top: 20px;
+  color: #555;
+}

@@ -1,0 +1,27 @@
+<div class="tracker-container">
+  <h2 class="header">🕒 Time Tracking</h2>
+
+  <div class="status-card" *ngIf="status.checkedIn && !status.checkedOut">
+    ⏳ You’ve been checked in for <strong>{{ currentDuration }}</strong> minute(s).
+  </div>
+
+  <div class="controls">
+    <button (click)="checkIn()" [disabled]="status.checkedIn || loading" class="btn checkin">✅ Check In</button>
+    <button (click)="checkOut()" [disabled]="!status.checkedIn || status.checkedOut || loading" class="btn checkout">⏹️ Check Out</button>
+  </div>
+
+  <div *ngIf="message" class="message">{{ message }}</div>
+
+  <h3 class="logs-header">📋 Your Time Logs</h3>
+  <ul class="log-list">
+    <li *ngFor="let log of logs">
+      <div class="log-item">
+        <div><strong>🕑 In:</strong> {{ log.check_in | date:'short' }}</div>
+        <div><strong>🕕 Out:</strong> {{ log.check_out ? (log.check_out | date:'short') : 'Still working' }}</div>
+        <div><strong>🕓 Duration:</strong> {{ log.duration_minutes || 0 }} min</div>
+      </div>
+    </li>
+  </ul>
+
+  <button class="btn back" (click)="goBack()">⬅️ Back to Dashboard</button>
+</div>

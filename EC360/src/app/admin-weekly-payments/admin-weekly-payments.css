@@ -1,0 +1,123 @@
+.payments-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.date-range {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.filters input[type="text"],
+.filters input[type="date"] {
+  padding: 0.5rem 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  min-width: 160px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.filters input[type="text"]:focus,
+.filters input[type="date"]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px #007bff;
+}
+
+.filters label {
+  font-weight: 600;
+  color: #333;
+  margin-left: 0.3rem;
+}
+
+.filters button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.btn-filter {
+  background-color: #007bff;
+}
+
+.btn-filter:hover {
+  background-color: #0056b3;
+}
+
+.btn-export {
+  background-color: #28a745;
+}
+
+.btn-export:hover {
+  background-color: #1e7e34;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+th, td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+thead th {
+  background-color: #f8f9fa;
+  font-weight: 700;
+  color: #333;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.loading-text,
+.no-data-text {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+  margin-top: 2rem;
+}
+
+.btn-back {
+  display: block;
+  max-width: 250px;
+  margin: 2rem auto;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  user-select: none;
+}
+
+.btn-back:hover {
+  background-color: #5a6268;
+}

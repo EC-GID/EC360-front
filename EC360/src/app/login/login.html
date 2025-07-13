@@ -1,0 +1,64 @@
+<div class="login-container">
+  <div class="login-box">
+    <h2>🔐 Login to Your Account</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+        />
+        <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          Please enter a valid email.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+        />
+        <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          Password is required.
+        </small>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <button
+        class="btn-login"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        🔓 Login
+      </button>
+
+      <button
+        *ngIf="showResend"
+        class="btn-resend"
+        type="button"
+        (click)="resendVerification(lastAttemptedEmail)"
+      >
+        ✉️ Resend Verification Email
+      </button>
+    </form>
+
+    <div class="links">
+      <a (click)="goToRegister()">
+        Don't have an account? <strong>Register</strong>
+      </a>
+      <a (click)="goToForgotPassword()">Forgot Password?</a>
+      <a (click)="goToHome()">← Back to Home</a>
+    </div>
+  </div>
+</div>
+

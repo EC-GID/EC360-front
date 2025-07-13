@@ -1,0 +1,84 @@
+<div class="department-container">
+  <h2>📁 Department Management</h2>
+
+  <form (ngSubmit)="createDepartment()" class="department-form" novalidate>
+    <h3>➕ Create New Department</h3>
+
+    <label for="deptName">Department Name</label>
+    <input
+      id="deptName"
+      [(ngModel)]="newDepartment.name"
+      name="name"
+      placeholder="Enter department name"
+      required
+      [disabled]="loading"
+    />
+    <div *ngIf="!newDepartment.name.trim() && errorMessage" class="error">
+      ⚠️ Department name is required
+    </div>
+
+    <label for="deptDesc">Description</label>
+    <textarea
+      id="deptDesc"
+      [(ngModel)]="newDepartment.description"
+      name="description"
+      placeholder="Optional description"
+      [disabled]="loading"
+    ></textarea>
+
+    <button type="submit" [disabled]="loading || !newDepartment.name.trim()">
+      ➕ Create Department
+    </button>
+  </form>
+
+  <div *ngIf="selectedDepartment" class="edit-form">
+    <h3>✏️ Edit Department</h3>
+
+    <label for="editName">Department Name</label>
+    <input
+      id="editName"
+      [(ngModel)]="selectedDepartment.name"
+      name="editName"
+      placeholder="Edit name"
+      required
+      [disabled]="loading"
+    />
+
+    <label for="editDesc">Description</label>
+    <textarea
+      id="editDesc"
+      [(ngModel)]="selectedDepartment.description"
+      name="editDescription"
+      placeholder="Edit description"
+      [disabled]="loading"
+    ></textarea>
+
+    <div class="form-actions">
+      <button (click)="updateDepartment()" [disabled]="loading || !selectedDepartment.name.trim()">💾 Update</button>
+      <button (click)="clearSelection()" type="button" [disabled]="loading">❌ Cancel</button>
+    </div>
+  </div>
+
+  <hr />
+
+  <ul *ngIf="departments.length" class="department-list">
+    <li *ngFor="let d of departments">
+      <div class="dept-info">
+        <strong>{{ d.name }}</strong> — {{ d.description || 'No description' }}
+      </div>
+      <div class="actions">
+        <button (click)="selectDepartment(d)" [disabled]="loading">✏️ Edit</button>
+        <button (click)="deleteDepartment(d.id!)" [disabled]="loading">🗑️ Delete</button>
+      </div>
+    </li>
+  </ul>
+
+  <p *ngIf="!departments.length && !errorMessage">No departments found.</p>
+
+  <div class="success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <button class="back-btn" type="button" (click)="goBack()">🔙 Back to Dashboard</button>
+</div>
+
+

@@ -1,0 +1,60 @@
+<div class="payments-container" *ngIf="!loading; else loadingTpl" role="region" aria-label="Weekly Payment Summary">
+  <h2>💰 Weekly Payment Summary</h2>
+  <p class="date-range">{{ getFormattedDate(weekStart) }} - {{ getFormattedDate(weekEnd) }}</p>
+
+  <section class="filters" aria-label="Filter payments">
+    <input
+      type="text"
+      placeholder="🔍 Search by name"
+      [(ngModel)]="selectedUser"
+      (input)="filterByUser()"
+      aria-label="Search by worker name"
+    />
+    
+    <label for="start-date">From:</label>
+    <input id="start-date" type="date" [(ngModel)]="customStart" aria-label="Start date" />
+    
+    <label for="end-date">To:</label>
+    <input id="end-date" type="date" [(ngModel)]="customEnd" aria-label="End date" />
+    
+    <button class="btn-filter" (click)="applyDateFilter()" aria-label="Apply date filter">📅 Filter</button>
+    <button class="btn-export" (click)="exportToExcel()" aria-label="Export payments to CSV">⬇️ Export CSV</button>
+  </section>
+
+  <table id="payment-table" *ngIf="filteredPayments.length > 0; else noDataTpl" role="table" aria-describedby="table-caption">
+    <caption id="table-caption">Weekly payment details for workers</caption>
+    <thead>
+      <tr>
+        <th scope="col">👤 Name</th>
+        <th scope="col">💵 Hourly Rate</th>
+        <th scope="col">⏱ Normal Hours</th>
+        <th scope="col">💰 Normal Pay</th>
+        <th scope="col">⏱ Overtime Hours</th>
+        <th scope="col">💸 Overtime Pay</th>
+        <th scope="col">🧾 Total Pay</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of filteredPayments">
+        <td>{{ p.full_name }}</td>
+        <td>${{ p.hourly_rate }}</td>
+        <td>{{ p.normal_hours }}</td>
+        <td>${{ p.normal_pay }}</td>
+        <td>{{ p.overtime_hours }}</td>
+        <td>${{ p.overtime_pay }}</td>
+        <td><strong>${{ p.total_pay }}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #loadingTpl>
+  <p class="loading-text">⏳ Loading weekly data...</p>
+</ng-template>
+
+<ng-template #noDataTpl>
+  <p class="no-data-text">📭 No payment records found for this week.</p>
+</ng-template>
+
+<button class="btn-back" (click)="goBack()" aria-label="Go back to dashboard">← Go Back to Dashboard</button>
+

@@ -1,0 +1,63 @@
+<div [class.dark-mode]="darkMode" class="admin-logs-container">
+  <h2>Admin Time Logs</h2>
+
+  <button class="dark-mode-toggle" (click)="toggleDarkMode()">
+    {{ darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode' }}
+  </button>
+
+  <div class="toolbar">
+    <input
+      type="text"
+      placeholder="Search by user"
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="applyFilters()"
+    />
+
+    <div class="export-buttons">
+      <button (click)="exportCSV()">⬇ CSV</button>
+      <button (click)="exportPDF()">⬇ PDF</button>
+      <button (click)="exportExcel()">⬇ Excel</button>
+    </div>
+  </div>
+
+  <div class="log-table-container">
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Check-in</th>
+          <th>Check-out</th>
+          <th>Duration (min)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of paginatedLogs()">
+          <td>{{ log.full_name }}</td>
+          <td>{{ log.check_in }}</td>
+          <td>{{ log.check_out || '-' }}</td>
+          <td>{{ log.duration_minutes || 0 }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button [disabled]="currentPage === 1" (click)="goToPreviousPage()">⏮ Prev</button>
+    <span>Page {{ currentPage }}</span>
+    <button
+      [disabled]="currentPage * itemsPerPage >= filteredLogs.length"
+      (click)="goToNextPage()"
+    >
+      Next ⏭
+    </button>
+  </div>
+
+  <p class="total-hours">
+    Total Time Worked: {{ (totalMinutes / 60) | number : '1.1-2' }} hours
+  </p>
+
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+</div>
+  <p class="Admindashboard-link">
+  <a (click)="Admindashboard()" style="cursor:pointer; color:#007bff;">Go back</a>
+  </p>

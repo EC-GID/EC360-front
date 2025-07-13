@@ -1,0 +1,7 @@
+<div class="verify-container">
+  <h2>Email Verification</h2>
+  <div *ngIf="loading">🔄 Verifying your email...</div>
+  <div *ngIf="!loading">{{ message }}</div>
+  <p *ngIf="!loading && message.includes('successfully')">✅ Redirecting to login...</p>
+</div>
+

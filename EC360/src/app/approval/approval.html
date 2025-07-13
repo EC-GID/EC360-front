@@ -1,0 +1,39 @@
+<div class="approval-container">
+  <header>
+    <h2>🕒 Pending User Approvals</h2>
+    <button class="btn-dashboard" (click)="goToDashboard()">🏠 Back to Dashboard</button>
+  </header>
+
+  <div *ngIf="loading" class="loading">Loading pending users...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <table *ngIf="!loading && pendingUsers.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of pendingUsers">
+        <td>{{ user.id }}</td>
+        <td>{{ user.full_name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td class="actions">
+          <button class="btn-approve" (click)="approveUser(user.id)">Approve</button>
+          <button class="btn-reject" (click)="rejectUser(user.id)">Reject</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && pendingUsers.length === 0" class="no-pending">
+    🎉 No pending users to approve!
+  </div>
+</div>
+
+

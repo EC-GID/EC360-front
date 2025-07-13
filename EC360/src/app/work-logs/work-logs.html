@@ -1,0 +1,33 @@
+<div class="worker-logs-container">
+  <h2>📋 My Time Logs</h2>
+
+  <div *ngIf="logs.length > 0; else noLogs">
+    <table class="logs-table">
+      <thead>
+        <tr>
+          <th>Check-in</th>
+          <th>Check-out</th>
+          <th>Duration (minutes)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs">
+          <td>{{ log.check_in }}</td>
+          <td>{{ log.check_out || '—' }}</td>
+          <td>{{ log.duration_minutes }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noLogs>
+    <p class="no-logs-msg">😕 You have no logs yet.</p>
+  </ng-template>
+
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="back-button-wrapper">
+    <button class="back-button" (click)="goWorkerdashboard()">← Back to Dashboard</button>
+  </div>
+</div>
+

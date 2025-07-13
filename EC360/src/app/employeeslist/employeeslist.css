@@ -1,0 +1,134 @@
+.employee-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2, h3 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.form, .form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+input, select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+input:focus, select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.error {
+  color: #d9534f;
+  font-size: 0.875rem;
+  margin-top: -0.5rem;
+}
+
+.success {
+  color: #28a745;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.back-btn {
+  background-color: #6c757d;
+  margin-top: 2rem;
+}
+
+.back-btn:hover {
+  background-color: #5a6268;
+}
+
+.list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.employee-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border-left: 5px solid #007bff;
+}
+
+.emp-details {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.actions button {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.actions button:last-child {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.actions button:hover {
+  opacity: 0.9;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}

@@ -1,0 +1,95 @@
+<div class="employee-container">
+  <h2>👥 Employee Management</h2>
+
+
+  <form [formGroup]="employeeForm" (ngSubmit)="createEmployee()" class="form" [class.loading]="loading" novalidate>
+    <h3>➕ Create Employee</h3>
+
+    <label for="full_name">Full Name</label>
+    <input id="full_name" formControlName="full_name" placeholder="Full Name" [disabled]="loading" />
+    <div *ngIf="employeeForm.get('full_name')?.invalid && employeeForm.get('full_name')?.touched" class="error">
+      Name is required
+    </div>
+
+    <label for="email">Email</label>
+    <input id="email" formControlName="email" placeholder="Email" [disabled]="loading" />
+    <div *ngIf="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched" class="error">
+      Valid email required
+    </div>
+
+    <label for="position">Position</label>
+    <input id="position" formControlName="position" placeholder="Position" [disabled]="loading" />
+
+    <label for="department_id">Department</label>
+    <select id="department_id" formControlName="department_id" [disabled]="loading" required>
+      <option [ngValue]="null" disabled>Select Department</option>
+      <option *ngFor="let d of departments" [value]="d.id">{{ d.name }}</option>
+    </select>
+    <div *ngIf="employeeForm.get('department_id')?.invalid && employeeForm.get('department_id')?.touched" class="error">
+      Please select a department
+    </div>
+
+    <label for="date_hired">Date Hired</label>
+    <input id="date_hired" type="date" formControlName="date_hired" [disabled]="loading" />
+
+    <button type="submit" [disabled]="employeeForm.invalid || loading">Create</button>
+  </form>
+
+  <hr />
+
+
+  <div class="list">
+    <h3>📋 Employees</h3>
+    <ul>
+      <li *ngFor="let emp of employees" class="employee-item">
+        <div class="emp-details">
+          <strong>{{ emp.full_name }}</strong> – {{ emp.email }}<br />
+          {{ emp.position }} | {{ getDepartmentName(emp.department_id || null) }} | {{ emp.date_hired }}
+        </div>
+        <div class="actions">
+          <button [attr.aria-label]="'Edit ' + emp.full_name">✏️ Edit</button>
+
+         <button (click)="deleteEmployee(emp.id!)" [attr.aria-label]="'Delete ' + emp.full_name">🗑️ Delete</button>
+
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <form *ngIf="selectedId" [formGroup]="editForm" (ngSubmit)="updateEmployee()" class="form" [class.loading]="loading" novalidate>
+    <h3>✏️ Edit Employee</h3>
+
+    <label for="edit_full_name">Full Name</label>
+    <input id="edit_full_name" formControlName="full_name" placeholder="Full Name" [disabled]="loading" />
+
+    <label for="edit_email">Email</label>
+    <input id="edit_email" formControlName="email" placeholder="Email" [disabled]="loading" />
+
+    <label for="edit_position">Position</label>
+    <input id="edit_position" formControlName="position" placeholder="Position" [disabled]="loading" />
+
+    <label for="edit_department_id">Department</label>
+    <select id="edit_department_id" formControlName="department_id" [disabled]="loading" required>
+      <option [ngValue]="null" disabled>Select Department</option>
+      <option *ngFor="let d of departments" [value]="d.id">{{ d.name }}</option>
+    </select>
+    <div *ngIf="editForm.get('department_id')?.invalid && editForm.get('department_id')?.touched" class="error">
+      Please select a department
+    </div>
+
+    <label for="edit_date_hired">Date Hired</label>
+    <input id="edit_date_hired" type="date" formControlName="date_hired" [disabled]="loading" />
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="editForm.invalid || loading">Update</button>
+      <button type="button" (click)="cancelEdit()" [disabled]="loading">Cancel</button>
+    </div>
+  </form>
+
+  <div class="success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+
+  <button class="back-btn" type="button" (click)="goBack()">🔙 Back to Dashboard</button>
+</div>
+

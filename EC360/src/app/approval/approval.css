@@ -1,0 +1,145 @@
+.approval-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+header h2 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #2c3e50;
+}
+
+.btn-dashboard {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-dashboard:hover {
+  background-color: #2980b9;
+}
+
+.loading,
+.error,
+.no-pending {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 1.5rem 0;
+}
+
+.error {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+thead {
+  background-color: #34495e;
+  color: white;
+  font-weight: 600;
+}
+
+th, td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+tbody tr:hover {
+  background-color: #f2f9ff;
+}
+
+.actions button {
+  margin-right: 0.5rem;
+  padding: 0.4rem 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-approve {
+  background-color: #27ae60;
+  color: white;
+}
+
+.btn-approve:hover {
+  background-color: #1e8449;
+}
+
+.btn-reject {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-reject:hover {
+  background-color: #c0392b;
+}
+
+@media (max-width: 600px) {
+  .approval-container {
+    padding: 1rem;
+  }
+
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead tr {
+    display: none;
+  }
+
+  tbody tr {
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    background-color: #f9f9f9;
+  }
+
+  tbody td {
+    padding: 0.6rem 0;
+    text-align: right;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 1rem;
+    width: 45%;
+    padding-left: 1rem;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .actions button {
+    margin: 0.2rem 0.5rem 0 0;
+  }
+}
