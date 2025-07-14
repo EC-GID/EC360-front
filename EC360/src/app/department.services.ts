@@ -12,7 +12,7 @@ export interface Department {
   providedIn: 'root'
 })
 export class DepartmentService {
-  private apiUrl = 'http://ec360-production.up.railway.app/departments';
+  private apiUrl = 'https://ec360-production.up.railway.app/departments';
   constructor(private http: HttpClient) {}
 
   getDepartments(): Observable<Department[]> {

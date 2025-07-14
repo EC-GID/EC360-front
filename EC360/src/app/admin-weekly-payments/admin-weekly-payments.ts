@@ -30,7 +30,7 @@ export class AdminWeeklyPayments implements OnInit {
 
   fetchWeeklyPayments(startDate?: string, endDate?: string): void {
     this.loading = true;
-    let url = 'http://ec360-production.up.railway.app/weekly-payments';
+    let url = 'https://ec360-production.up.railway.app/weekly-payments';
     if (startDate && endDate) {
       url += `?start=${startDate}&end=${endDate}`;
     }

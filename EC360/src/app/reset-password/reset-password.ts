@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // Add FormsModule for ngModel usage
-import { HttpClient, HttpClientModule } from '@angular/common/http'; // For HTTP requests
-import { CommonModule } from '@angular/common'; // For common directives like *ngIf
+import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-reset-password',
@@ -28,7 +28,7 @@ export class ResetPassword {
       return;
     }
 
-    this.http.post('http://ec360-production.up.railway.app/reset-password', {
+    this.http.post('https://ec360-production.up.railway.app/reset-password', {
       email: this.email,
       newPassword: this.newPassword
     }).subscribe({

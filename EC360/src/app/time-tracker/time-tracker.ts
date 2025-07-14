@@ -114,7 +114,7 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
 
   checkOut(): void {
     this.loading = true;
-    this.http.post<any>('http://ec360-production.up.railway.app/check-out', {}, {
+    this.http.post<any>('https://ec360-production.up.railway.app/check-out', {}, {
       headers: this.getAuthHeaders()
     }).subscribe({
       next: (res) => {
