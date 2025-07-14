@@ -15,7 +15,7 @@ export interface Employee {
   providedIn: 'root'
 })
 export class EmployeesService { 
-  private apiUrl = 'https://ec360-production.up.railway.app/employees';
+  private apiUrl = 'http://ec360-production.up.railway.app/employees';
 
   constructor(private http: HttpClient) {}
 

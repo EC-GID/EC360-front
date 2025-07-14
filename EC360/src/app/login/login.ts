@@ -47,7 +47,7 @@ export class Login {
     this.showResend = false;
     this.lastAttemptedEmail = this.loginForm.value.email;
 
-    this.http.post<any>('https://ec360-production.up.railway.app/login', this.loginForm.value).subscribe({
+    this.http.post<any>('http://ec360-production.up.railway.app/login', this.loginForm.value).subscribe({
       next: (res) => {
         this.auth.setLoginSession(res.token, res.user.role, res.user.id);
 
@@ -69,7 +69,7 @@ export class Login {
   }
 
   resendVerification(email: string): void {
-    this.http.post('https://ec360-production.up.railway.app/resend-verification', { email }).subscribe({
+    this.http.post('http://ec360-production.up.railway.app/resend-verification', { email }).subscribe({
       next: (res: any) => {
         alert(res.message);
         this.showResend = false;

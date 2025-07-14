@@ -21,7 +21,7 @@ export class ForgotPassword {
     this.success = '';
     this.error = '';
 
-    this.http.post('https://ec360-production.up.railway.app/forgot-password', { email: this.email }).subscribe({
+    this.http.post('http://ec360-production.up.railway.app/forgot-password', { email: this.email }).subscribe({
       next: () => this.success = 'Reset link sent!',
       error: err => this.error = err.error.error || 'Failed to send reset link.'
     });

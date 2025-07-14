@@ -28,7 +28,7 @@ export class ResetPassword {
       return;
     }
 
-    this.http.post('https://ec360-production.up.railway.app/reset-password', {
+    this.http.post('http://ec360-production.up.railway.app/reset-password', {
       email: this.email,
       newPassword: this.newPassword
     }).subscribe({

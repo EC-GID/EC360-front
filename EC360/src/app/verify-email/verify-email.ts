@@ -24,7 +24,7 @@ export class VerifyEmailComponent implements OnInit {
     const token = this.route.snapshot.queryParamMap.get('token');
 
     if (token) {
-      this.http.get(`https://ec360-production.up.railway.app/verify-email?token=${token}`)
+      this.http.get(`http://ec360-production.up.railway.app/verify-email?token=${token}`)
         .subscribe({
           next: (res: any) => {
             this.message = res.message;

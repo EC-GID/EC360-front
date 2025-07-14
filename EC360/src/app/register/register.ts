@@ -44,7 +44,7 @@ export class Register {
   onRegister(): void {
     if (this.registerForm.invalid) return;
 
-    this.http.post<any>('https://ec360-production.up.railway.app/register', this.registerForm.value).subscribe({
+    this.http.post<any>('http://ec360-production.up.railway.app/register', this.registerForm.value).subscribe({
       next: (res) => {
         this.successMessage = res.message;
         this.errorMessage = '';

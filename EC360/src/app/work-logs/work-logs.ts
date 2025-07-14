@@ -28,7 +28,7 @@ export class WorkLogs implements OnInit {
       Authorization: `Bearer ${this.auth.getToken()}`
     });
 
-    this.http.get<LogEntry[]>('https://ec360-production.up.railway.app/my-time-logs', { headers }).subscribe({
+    this.http.get<LogEntry[]>('http://ec360-production.up.railway.app/my-time-logs', { headers }).subscribe({
       next: (data) => this.logs = data,
       error: (err) => {
         this.errorMessage = err?.error?.error || '❌ Failed to load your logs.';
