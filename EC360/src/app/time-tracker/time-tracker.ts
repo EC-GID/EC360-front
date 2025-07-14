@@ -53,7 +53,7 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
   }
 
   fetchStatus(): void {
-    this.http.get<any>('http://ec360-production.up.railway.app/check-status', {
+    this.http.get<any>('https://ec360-production.up.railway.app/check-status', {
       headers: this.getAuthHeaders()
     }).subscribe({
       next: (data) => {
@@ -68,7 +68,7 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
   }
 
   fetchLogs(): void {
-    this.http.get<any[]>('http://ec360-production.up.railway.app/my-time-logs', {
+    this.http.get<any[]>('https://ec360-production.up.railway.app/my-time-logs', {
       headers: this.getAuthHeaders()
     }).subscribe({
       next: (data) => {
@@ -95,7 +95,7 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
 
   checkIn(): void {
     this.loading = true;
-    this.http.post<any>('http://ec360-production.up.railway.app/check-in', {}, {
+    this.http.post<any>('https://ec360-production.up.railway.app/check-in', {}, {
       headers: this.getAuthHeaders()
     }).subscribe({
       next: (res) => {

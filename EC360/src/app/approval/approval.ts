@@ -36,7 +36,7 @@ export class Approval implements OnInit {
 
   approveUser(id: number): void {
     const token = this.auth.getToken();
-    this.http.patch(`http://ec360-production.up.railway.app/approve-user/${id}`, {}, {
+    this.http.patch(`https://ec360-production.up.railway.app/approve-user/${id}`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: () => {
@@ -50,7 +50,7 @@ export class Approval implements OnInit {
 
   rejectUser(id: number): void {
   const token = this.auth.getToken();
-  this.http.delete(`http://ec360-production.up.railway.app/admin/reject-user/${id}`, {
+  this.http.delete(`https://ec360-production.up.railway.app/admin/reject-user/${id}`, {
     headers: { Authorization: `Bearer ${token}` }
   }).subscribe({
     next: () => {
