@@ -23,7 +23,7 @@
               "src/assets",
               {
                 "glob": "_redirects",
-                "input": "src/assets",
+                "input": "src/app",
                 "output": "/"
               }
             ],
