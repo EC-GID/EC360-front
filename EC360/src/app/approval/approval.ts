@@ -20,7 +20,7 @@ export class Approval implements OnInit {
 
   ngOnInit(): void {
     const token = this.auth.getToken();
-    this.http.get<any[]>('https://ec360-production.up.railway.app/pending-users', {
+    this.http.get<any[]>('https://ec360-production.up.railway.app/admin/pending-users', {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (res) => {
