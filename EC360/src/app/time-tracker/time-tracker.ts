@@ -77,7 +77,6 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
         this.logs = data.sort((a, b) => new Date(b.check_in).getTime() - new Date(a.check_in).getTime());
         this.weekStart = '';
         this.weekEnd = '';
-
         this.updateDurationLive();
       },
       error: () => {
@@ -87,11 +86,33 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
   }
 
   updateDurationLive(): void {
-    if (this.logs.length > 0 && this.status.checkedIn && !this.status.checkedOut) {
+    if (this.logs.length > 0) {
       const latestLog = this.logs[0];
       const checkInTime = new Date(latestLog.check_in);
+      const checkOutTime = latestLog.check_out ? new Date(latestLog.check_out) : null;
       const now = new Date();
-      this.currentDuration = Math.floor((now.getTime() - checkInTime.getTime()) / 60000);
+
+      const endTime = checkOutTime || now;
+
+      const checkInUTC = Date.UTC(
+        checkInTime.getUTCFullYear(),
+        checkInTime.getUTCMonth(),
+        checkInTime.getUTCDate(),
+        checkInTime.getUTCHours(),
+        checkInTime.getUTCMinutes(),
+        checkInTime.getUTCSeconds()
+      );
+
+      const endTimeUTC = Date.UTC(
+        endTime.getUTCFullYear(),
+        endTime.getUTCMonth(),
+        endTime.getUTCDate(),
+        endTime.getUTCHours(),
+        endTime.getUTCMinutes(),
+        endTime.getUTCSeconds()
+      );
+
+      this.currentDuration = Math.floor((endTimeUTC - checkInUTC) / 60000);
     } else {
       this.currentDuration = 0;
     }
