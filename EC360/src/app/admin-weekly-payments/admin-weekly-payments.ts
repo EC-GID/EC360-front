@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class AdminWeeklyPayments implements OnInit {
   payments: any[] = [];
   filteredPayments: any[] = [];
+
   weekStart = '';
   weekEnd = '';
   loading = false;
@@ -22,7 +23,10 @@ export class AdminWeeklyPayments implements OnInit {
   customStart = '';
   customEnd = '';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.fetchWeeklyPayments();
@@ -31,6 +35,7 @@ export class AdminWeeklyPayments implements OnInit {
   fetchWeeklyPayments(startDate?: string, endDate?: string): void {
     this.loading = true;
     let url = 'https://ec360-production.up.railway.app/admin/weekly-payments';
+
     if (startDate && endDate) {
       url += `?start=${startDate}&end=${endDate}`;
     }
@@ -38,12 +43,12 @@ export class AdminWeeklyPayments implements OnInit {
     const token = localStorage.getItem('token');
     const headers = token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
 
-    this.http.get<any>(url, { headers }).subscribe({
+    this.http.get<any[]>(url, { headers }).subscribe({
       next: (data) => {
-        this.payments = data.payments;
-        this.filteredPayments = data.payments;
-        this.weekStart = data.week_start;
-        this.weekEnd = data.week_end;
+        this.payments = data;
+        this.filteredPayments = data;
+        this.weekStart = '';  // Set manually if needed
+        this.weekEnd = '';    // Set manually if needed
         this.loading = false;
       },
       error: (err) => {
@@ -78,6 +83,7 @@ export class AdminWeeklyPayments implements OnInit {
   exportToExcel(): void {
     const table = document.getElementById('payment-table');
     if (!table) return;
+
     const rows = Array.from(table.querySelectorAll('tr'));
     const csv = rows.map(row => {
       const cells = Array.from(row.querySelectorAll('th,td'));
