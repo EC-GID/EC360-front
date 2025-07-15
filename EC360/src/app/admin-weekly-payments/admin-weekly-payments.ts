@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';  // Import HttpHeaders here
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -36,12 +36,8 @@ export class AdminWeeklyPayments implements OnInit {
     }
 
     const token = localStorage.getItem('token');
-    
-  
-    let headers = new HttpHeaders();
-    if (token) {
-      headers = headers.set('Authorization', `Bearer ${token}`);
-    }
+    const headers = token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
+
     this.http.get<any>(url, { headers }).subscribe({
       next: (data) => {
         this.payments = data.payments;
@@ -97,7 +93,7 @@ export class AdminWeeklyPayments implements OnInit {
     window.URL.revokeObjectURL(url);
   }
 
-  goBack() {
+  goBack(): void {
     this.router.navigate(['/dashboard']);
   }
 }
