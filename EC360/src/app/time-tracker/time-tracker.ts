@@ -74,7 +74,9 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
       headers: this.getAuthHeaders()
     }).subscribe({
       next: (data) => {
-        this.logs = data.sort((a, b) => new Date(b.check_in).getTime() - new Date(a.check_in).getTime());
+        this.logs = data.sort(
+          (a, b) => new Date(b.check_in).getTime() - new Date(a.check_in).getTime()
+        );
         this.weekStart = '';
         this.weekEnd = '';
         this.updateDurationLive();
@@ -88,8 +90,10 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
   updateDurationLive(): void {
     if (this.logs.length > 0) {
       const latestLog = this.logs[0];
-      const checkInTime = new Date(latestLog.check_in);
-      const checkOutTime = latestLog.check_out ? new Date(latestLog.check_out) : null;
+
+      // Append 'Z' to treat as UTC time regardless of timezone info
+      const checkInTime = new Date(latestLog.check_in + 'Z');
+      const checkOutTime = latestLog.check_out ? new Date(latestLog.check_out + 'Z') : null;
       const now = new Date();
 
       const endTime = checkOutTime || now;
