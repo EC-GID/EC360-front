@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';  // Import HttpHeaders here
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -35,7 +35,14 @@ export class AdminWeeklyPayments implements OnInit {
       url += `?start=${startDate}&end=${endDate}`;
     }
 
-    this.http.get<any>(url).subscribe({
+    const token = localStorage.getItem('token');
+    
+  
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+    this.http.get<any>(url, { headers }).subscribe({
       next: (data) => {
         this.payments = data.payments;
         this.filteredPayments = data.payments;
