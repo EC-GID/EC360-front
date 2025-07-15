@@ -13,6 +13,7 @@ import { interval, Subscription } from 'rxjs';
   styleUrls: ['./time-tracker.css']
 })
 export class TimeTrackerComponent implements OnInit, OnDestroy {
+
   message = '';
   loading = false;
   logs: any[] = [];
@@ -33,7 +34,7 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.fetchStatus();
     this.fetchLogs();
 
@@ -44,89 +45,17 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    if (this.timerSubscription) this.timerSubscription.unsubscribe();
-  }
-
-  getAuthHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      Authorization: `Bearer ${this.auth.getToken()}`
-    });
-  }
-
-  fetchStatus(): void {
-    this.http.get<any>('https://ec360-production.up.railway.app/check-status', {
-      headers: this.getAuthHeaders()
-    }).subscribe({
-      next: (data) => {
-        this.status.checkedIn = data.checkedIn;
-        this.status.checkedOut = data.checkedOut;
-      },
-      error: () => {
-        this.status.checkedIn = false;
-        this.status.checkedOut = false;
-      }
-    });
-  }
-
-  fetchLogs(): void {
-    this.http.get<any[]>('https://ec360-production.up.railway.app/my-time-logs', {
-      headers: this.getAuthHeaders()
-    }).subscribe({
-      next: (data) => {
-        this.logs = data.sort(
-          (a, b) => new Date(b.check_in).getTime() - new Date(a.check_in).getTime()
-        );
-        this.weekStart = '';
-        this.weekEnd = '';
-        this.updateDurationLive();
-      },
-      error: () => {
-        this.logs = [];
-      }
-    });
-  }
-
-  updateDurationLive(): void {
-    if (this.logs.length > 0) {
-      const latestLog = this.logs[0];
-
-      // Append 'Z' to treat as UTC time regardless of timezone info
-      const checkInTime = new Date(latestLog.check_in + 'Z');
-      const checkOutTime = latestLog.check_out ? new Date(latestLog.check_out + 'Z') : null;
-      const now = new Date();
-
-      const endTime = checkOutTime || now;
-
-      const checkInUTC = Date.UTC(
-        checkInTime.getUTCFullYear(),
-        checkInTime.getUTCMonth(),
-        checkInTime.getUTCDate(),
-        checkInTime.getUTCHours(),
-        checkInTime.getUTCMinutes(),
-        checkInTime.getUTCSeconds()
-      );
-
-      const endTimeUTC = Date.UTC(
-        endTime.getUTCFullYear(),
-        endTime.getUTCMonth(),
-        endTime.getUTCDate(),
-        endTime.getUTCHours(),
-        endTime.getUTCMinutes(),
-        endTime.getUTCSeconds()
-      );
-
-      this.currentDuration = Math.floor((endTimeUTC - checkInUTC) / 60000);
-    } else {
-      this.currentDuration = 0;
-    }
+  ngOnDestroy(): void {
+    this.timerSubscription?.unsubscribe();
   }
 
   checkIn(): void {
     this.loading = true;
-    this.http.post<any>('https://ec360-production.up.railway.app/check-in', {}, {
-      headers: this.getAuthHeaders()
-    }).subscribe({
+    this.http.post<any>(
+      'https://ec360-production.up.railway.app/check-in',
+      {},
+      { headers: this.getAuthHeaders() }
+    ).subscribe({
       next: (res) => {
         this.message = res.message;
         this.status.checkedIn = true;
@@ -143,9 +72,11 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
 
   checkOut(): void {
     this.loading = true;
-    this.http.post<any>('https://ec360-production.up.railway.app/check-out', {}, {
-      headers: this.getAuthHeaders()
-    }).subscribe({
+    this.http.post<any>(
+      'https://ec360-production.up.railway.app/check-out',
+      {},
+      { headers: this.getAuthHeaders() }
+    ).subscribe({
       next: (res) => {
         this.message = res.message;
         this.status.checkedOut = true;
@@ -159,7 +90,63 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
     });
   }
 
-  goBack() {
+  goBack(): void {
     this.router.navigate(['/worker-dashboard']);
+  }
+
+  private fetchStatus(): void {
+    this.http.get<any>(
+      'https://ec360-production.up.railway.app/check-status',
+      { headers: this.getAuthHeaders() }
+    ).subscribe({
+      next: (data) => {
+        this.status.checkedIn = data.checkedIn;
+        this.status.checkedOut = data.checkedOut;
+      },
+      error: () => {
+        this.status.checkedIn = false;
+        this.status.checkedOut = false;
+      }
+    });
+  }
+
+  private fetchLogs(): void {
+    this.http.get<any[]>(
+      'https://ec360-production.up.railway.app/my-time-logs',
+      { headers: this.getAuthHeaders() }
+    ).subscribe({
+      next: (data) => {
+        this.logs = data.sort(
+          (a, b) => new Date(b.check_in).getTime() - new Date(a.check_in).getTime()
+        );
+        this.weekStart = '';
+        this.weekEnd = '';
+        this.updateDurationLive();
+      },
+      error: () => {
+        this.logs = [];
+      }
+    });
+  }
+
+  private updateDurationLive(): void {
+    if (!this.logs.length) {
+      this.currentDuration = 0;
+      return;
+    }
+
+    const latestLog = this.logs[0];
+    const checkInTime = new Date(latestLog.check_in + 'Z');
+    const checkOutTime = latestLog.check_out ? new Date(latestLog.check_out + 'Z') : new Date();
+    const durationMs = checkOutTime.getTime() - checkInTime.getTime();
+
+    this.currentDuration = Math.floor(durationMs / 60000);
+  }
+
+  private getAuthHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      Authorization: `Bearer ${this.auth.getToken()}`,
+      'Content-Type': 'application/json'
+    });
   }
 }
