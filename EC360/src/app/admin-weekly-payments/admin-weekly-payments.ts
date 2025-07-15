@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -35,23 +35,26 @@ export class AdminWeeklyPayments implements OnInit {
   fetchWeeklyPayments(startDate?: string, endDate?: string): void {
     this.loading = true;
     let url = 'https://ec360-production.up.railway.app/admin/weekly-payments';
-
     if (startDate && endDate) {
       url += `?start=${startDate}&end=${endDate}`;
     }
 
-    const token = localStorage.getItem('token');
-    const headers = token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
+    const session = localStorage.getItem('auth_session');
+    const token = session ? JSON.parse(session).token : null;
+    console.log('TOKEN:', token);
 
-    this.http.get<any[]>(url, { headers }).subscribe({
+    this.http.get<any[]>(url, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
       next: (data) => {
         this.payments = data;
         this.filteredPayments = data;
-        this.weekStart = '';  // Set manually if needed
-        this.weekEnd = '';    // Set manually if needed
+        this.weekStart = ''; 
+        this.weekEnd = '';     
         this.loading = false;
       },
       error: (err) => {
+        console.error('Fetch error:', err);
         this.error = err.error?.message || 'Failed to fetch data';
         this.loading = false;
       }
