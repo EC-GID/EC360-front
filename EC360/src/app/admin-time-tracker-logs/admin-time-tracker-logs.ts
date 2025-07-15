@@ -42,7 +42,7 @@ export class AdminTimeLogsComponent implements OnInit {
       Authorization: `Bearer ${this.auth.getToken()}`
     });
 
-    this.http.get<TimeLog[]>('https://ec360-production.up.railway.app/time-logs', { headers }).subscribe({
+    this.http.get<TimeLog[]>('https://ec360-production.up.railway.app/admin/time-logs', { headers }).subscribe({
       next: (data) => {
         this.logs = data;
         this.totalMinutes = data.reduce((sum, log) => sum + (log.duration_minutes || 0), 0);
