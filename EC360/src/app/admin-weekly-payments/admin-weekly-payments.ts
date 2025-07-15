@@ -22,7 +22,7 @@ export class AdminWeeklyPayments implements OnInit {
   customStart = '';
   customEnd = '';
 
-  constructor(private http: HttpClient,  private router: Router,) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchWeeklyPayments();
@@ -50,8 +50,10 @@ export class AdminWeeklyPayments implements OnInit {
     });
   }
 
-  getFormattedDate(date: string): string {
-    return new Date(date).toLocaleDateString();
+  getFormattedDate(date: string | null): string {
+    if (!date) return '-';
+    const parsed = new Date(date);
+    return isNaN(parsed.getTime()) ? '-' : parsed.toLocaleString();
   }
 
   filterByUser(): void {
@@ -88,7 +90,7 @@ export class AdminWeeklyPayments implements OnInit {
     window.URL.revokeObjectURL(url);
   }
 
-   goBack() {
+  goBack() {
     this.router.navigate(['/dashboard']);
   }
 }
