@@ -24,6 +24,9 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
     checkedOut: false
   };
 
+  weekStart = '';
+  weekEnd = '';
+
   constructor(
     private http: HttpClient,
     private auth: Auth,
@@ -33,7 +36,6 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.fetchStatus();
     this.fetchLogs();
-
 
     this.timerSubscription = interval(60000).subscribe(() => {
       if (this.status.checkedIn && !this.status.checkedOut) {
@@ -72,8 +74,10 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
       headers: this.getAuthHeaders()
     }).subscribe({
       next: (data) => {
-
         this.logs = data.sort((a, b) => new Date(b.check_in).getTime() - new Date(a.check_in).getTime());
+        this.weekStart = '';
+        this.weekEnd = '';
+
         this.updateDurationLive();
       },
       error: () => {
@@ -134,4 +138,3 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
     this.router.navigate(['/worker-dashboard']);
   }
 }
-
