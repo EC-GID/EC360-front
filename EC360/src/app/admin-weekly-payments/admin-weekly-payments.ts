@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
 export class AdminWeeklyPayments implements OnInit {
   payments: any[] = [];
   filteredPayments: any[] = [];
-
   weekStart = '';
   weekEnd = '';
   loading = false;
@@ -41,16 +40,15 @@ export class AdminWeeklyPayments implements OnInit {
 
     const session = localStorage.getItem('auth_session');
     const token = session ? JSON.parse(session).token : null;
-    console.log('TOKEN:', token);
 
-    this.http.get<any[]>(url, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).subscribe({
+    const headers = token ? new HttpHeaders({ Authorization: `Bearer ${token}` }) : undefined;
+
+    this.http.get<any>(url, { headers }).subscribe({
       next: (data) => {
-        this.payments = data;
-        this.filteredPayments = data;
-        this.weekStart = ''; 
-        this.weekEnd = '';     
+        this.payments = data.payments;
+        this.filteredPayments = data.payments;
+        this.weekStart = data.week_start;
+        this.weekEnd = data.week_end;
         this.loading = false;
       },
       error: (err) => {
