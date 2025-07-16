@@ -25,9 +25,6 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
     checkedOut: false
   };
 
-  weekStart = '';
-  weekEnd = '';
-
   constructor(
     private http: HttpClient,
     private auth: Auth,
@@ -119,8 +116,6 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
         this.logs = data.sort(
           (a, b) => new Date(b.check_in).getTime() - new Date(a.check_in).getTime()
         );
-        this.weekStart = '';
-        this.weekEnd = '';
         this.updateDurationLive();
       },
       error: () => {
@@ -130,17 +125,28 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
   }
 
   private updateDurationLive(): void {
-    if (!this.logs.length) {
+    if (!this.logs.length || !this.logs[0].check_in) {
       this.currentDuration = 0;
       return;
     }
 
     const latestLog = this.logs[0];
     const checkInTime = new Date(latestLog.check_in + 'Z');
-    const checkOutTime = latestLog.check_out ? new Date(latestLog.check_out + 'Z') : new Date();
+
+    if (isNaN(checkInTime.getTime())) {
+      this.currentDuration = 0;
+      return;
+    }
+
+    const checkOutTime = latestLog.check_out
+      ? new Date(latestLog.check_out + 'Z')
+      : new Date();
+
     const durationMs = checkOutTime.getTime() - checkInTime.getTime();
 
-    this.currentDuration = Math.floor(durationMs / 60000);
+    this.currentDuration = isNaN(durationMs)
+      ? 0
+      : Math.floor(durationMs / 60000);
   }
 
   private getAuthHeaders(): HttpHeaders {
