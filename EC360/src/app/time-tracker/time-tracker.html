@@ -1,27 +1,49 @@
-<div class="tracker-container">
-  <h2 class="header">🕒 Time Tracking</h2>
+<div class="time-tracker-container">
+  <h2>⏱️ Time Tracker</h2>
 
-  <div class="status-card" *ngIf="status.checkedIn && !status.checkedOut">
-    ⏳ You’ve been checked in for <strong>{{ currentDuration }}</strong> minute(s).
+  <p class="message" *ngIf="message">{{ message }}</p>
+
+  <div class="status">
+    <p *ngIf="status.checkedIn && !status.checkedOut">
+      ✅ You are checked in. ⏳ Duration: {{ currentDuration }} minute(s).
+    </p>
+    <p *ngIf="status.checkedOut">
+      ✅ You have checked out.
+    </p>
+    <p *ngIf="!status.checkedIn && !status.checkedOut">
+      ⚠️ You are not checked in.
+    </p>
   </div>
 
-  <div class="controls">
-    <button (click)="checkIn()" [disabled]="status.checkedIn || loading" class="btn checkin">✅ Check In</button>
-    <button (click)="checkOut()" [disabled]="!status.checkedIn || status.checkedOut || loading" class="btn checkout">⏹️ Check Out</button>
+  <div class="buttons">
+    <button (click)="checkIn()" [disabled]="status.checkedIn && !status.checkedOut || loading">
+      Check In
+    </button>
+    <button (click)="checkOut()" [disabled]="!status.checkedIn || status.checkedOut || loading">
+      Check Out
+    </button>
+    <button (click)="goBack()">Back to Dashboard</button>
   </div>
 
-  <div *ngIf="message" class="message">{{ message }}</div>
+  <h3>📜 Your Time Logs</h3>
+  <table *ngIf="logs.length > 0">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Check-In</th>
+        <th>Check-Out</th>
+        <th>Duration (min)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of logs; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ log.check_in }}</td>
+        <td>{{ log.check_out || '---' }}</td>
+        <td>{{ log.duration_minutes || 0 }}</td>
+      </tr>
+    </tbody>
+  </table>
 
-  <h3 class="logs-header">📋 Your Time Logs</h3>
-  <ul class="log-list">
-    <li *ngFor="let log of logs">
-      <div class="log-item">
-        <div><strong>🕑 In:</strong> {{ log.check_in | date:'short' }}</div>
-        <div><strong>🕕 Out:</strong> {{ log.check_out ? (log.check_out | date:'short') : 'Still working' }}</div>
-        <div><strong>🕓 Duration:</strong> {{ log.duration_minutes || 0 }} min</div>
-      </div>
-    </li>
-  </ul>
-
-  <button class="btn back" (click)="goBack()">⬅️ Back to Dashboard</button>
+  <p *ngIf="logs.length === 0" class="no-logs">No logs found.</p>
 </div>

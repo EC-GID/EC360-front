@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router'; 
 
 @Component({
   selector: 'app-reset-password',
@@ -11,26 +12,34 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./reset-password.css']
 })
 export class ResetPassword {
-  email = '';
+  token: string = ''; 
   newPassword = '';
   confirmPassword = '';
   success = '';
   error = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.token = params['token'] || ''; 
+    });
+  }
   resetPassword() {
     this.success = '';
     this.error = '';
+
 
     if (this.newPassword !== this.confirmPassword) {
       this.error = "Passwords don't match.";
       return;
     }
 
+    // Send the token and password to the backend
     this.http.post('https://ec360-production.up.railway.app/reset-password', {
-      email: this.email,
-      newPassword: this.newPassword
+      token: this.token,
+      password: this.newPassword
     }).subscribe({
       next: () => this.success = 'Password reset successful!',
       error: err => this.error = err.error.error || 'Failed to reset password.'

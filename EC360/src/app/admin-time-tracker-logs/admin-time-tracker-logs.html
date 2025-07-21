@@ -28,14 +28,18 @@
           <th>Check-in</th>
           <th>Check-out</th>
           <th>Duration (min)</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let log of paginatedLogs()">
           <td>{{ log.full_name }}</td>
           <td>{{ log.check_in }}</td>
-          <td>{{ log.check_out || '-' }}</td>
+          <td>{{ log.check_out || '---' }}</td>
           <td>{{ log.duration_minutes || 0 }}</td>
+          <td>{{ log.latitude || '---' }}</td>
+          <td>{{ log.longitude || '---' }}</td>
         </tr>
       </tbody>
     </table>
@@ -58,6 +62,7 @@
 
   <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
 </div>
-  <p class="Admindashboard-link">
-  <a (click)="Admindashboard()" style="cursor:pointer; color:#007bff;">Go back</a>
-  </p>
+
+<p class="Admindashboard-link">
+  <a (click)="Admindashboard()" style="cursor:pointer; color:#007bff;">⬅ Go back to Dashboard</a>
+</p>

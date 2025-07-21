@@ -1,46 +1,53 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f6fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
 
 .admin-logs-container {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 1.5rem 2rem;
-  background: #f9f9f9;
+  max-width: 1100px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #222;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.admin-logs-container.dark-mode {
-  background: #121212;
+
+.dark-mode {
+  background-color: #222;
   color: #eee;
-  box-shadow: 0 4px 20px rgb(255 255 255 / 0.1);
 }
+
+.dark-mode .log-table th,
+.dark-mode .log-table td {
+  border-color: #555;
+}
+
+.dark-mode .toolbar input,
+.dark-mode .export-buttons button {
+  background-color: #333;
+  color: #eee;
+  border-color: #555;
+}
+
+.dark-mode .export-buttons button:hover {
+  background-color: #444;
+}
+
 
 .admin-logs-container h2 {
   text-align: center;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  font-size: 2rem;
-  letter-spacing: 0.05em;
+  color: #333;
+  margin-bottom: 25px;
 }
 
-.dark-mode-toggle {
-  display: block;
-  margin: 0 auto 1.5rem auto;
-  padding: 0.5rem 1.2rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: 600;
-  box-shadow: 0 3px 8px rgb(0 123 255 / 0.6);
-  transition: background-color 0.3s ease;
-}
-
-.dark-mode-toggle:hover {
-  background-color: #0056b3;
+.dark-mode h2 {
+  color: #eee;
 }
 
 
@@ -48,86 +55,74 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-  gap: 1rem;
+  margin-bottom: 20px;
+  gap: 15px;
 }
 
-.toolbar input[type="text"] {
-  flex-grow: 1;
-  min-width: 200px;
-  padding: 0.5rem 1rem;
-  border: 2px solid #007bff;
-  border-radius: 30px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
+.toolbar input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
 }
-
-.toolbar input[type="text"]:focus {
-  outline: none;
-  border-color: #0056b3;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
 
 .export-buttons button {
-  background-color: #17a2b8;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  padding: 0.5rem 1rem;
-  margin-left: 0.5rem;
+  padding: 10px 20px;
+  margin-left: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: 600;
-  box-shadow: 0 3px 8px rgb(23 162 184 / 0.6);
-  transition: background-color 0.3s ease;
+  background-color: #f1f1f1;
+  transition: 0.3s;
 }
 
 .export-buttons button:hover {
-  background-color: #117a8b;
+  background-color: #e2e2e2;
 }
+
+
+.dark-mode-toggle {
+  display: block;
+  margin: 0 auto 20px;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.dark-mode-toggle:hover {
+  background-color: #0056b3;
+}
+
 
 .log-table-container {
   overflow-x: auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
-  margin-bottom: 1rem;
 }
 
 .log-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.95rem;
-  text-align: left;
+}
+
+.log-table th,
+.log-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+  font-size: 14px;
 }
 
 .log-table thead {
-  background-color: #007bff;
-  color: white;
-  user-select: none;
+  background-color: #f5f5f5;
 }
 
-.admin-logs-container.dark-mode .log-table thead {
-  background-color: #0056b3;
-}
-
-.log-table th, .log-table td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #ddd;
-}
-
-.admin-logs-container.dark-mode .log-table th,
-.admin-logs-container.dark-mode .log-table td {
-  border-color: #444;
-}
-
-
-.log-table tbody tr:nth-child(even) {
-  background-color: #f4f6f8;
-}
-
-.admin-logs-container.dark-mode .log-table tbody tr:nth-child(even) {
-  background-color: #1e1e1e;
+.log-table th {
+  font-weight: 600;
 }
 
 
@@ -135,67 +130,66 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  margin: 25px 0;
+  gap: 10px;
 }
 
 .pagination button {
-  background-color: #007bff;
-  color: white;
+  padding: 8px 20px;
   border: none;
-  padding: 0.5rem 1.2rem;
-  border-radius: 30px;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: #fff;
   cursor: pointer;
-  font-weight: 600;
-  box-shadow: 0 3px 8px rgb(0 123 255 / 0.6);
-  transition: background-color 0.3s ease;
+  transition: 0.3s;
 }
 
 .pagination button:disabled {
-  background-color: #a0c8ff;
+  background-color: #ccc;
   cursor: not-allowed;
-  box-shadow: none;
 }
 
 .pagination button:hover:not(:disabled) {
   background-color: #0056b3;
 }
 
-.total-hours {
-  text-align: center;
-  font-weight: 600;
-  font-size: 1.15rem;
-  margin-bottom: 1rem;
-  color: #333;
+.pagination span {
+  font-weight: 500;
 }
 
-.admin-logs-container.dark-mode .total-hours {
+
+.total-hours,
+.summary {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: 500;
+  color: #555;
+}
+
+.dark-mode .total-hours,
+.dark-mode .summary {
   color: #ccc;
 }
 
 
 .error {
-  text-align: center;
   color: #d9534f;
-  font-weight: 700;
-  margin-top: 0.5rem;
+  text-align: center;
+  margin-top: 20px;
 }
 
 
 .Admindashboard-link {
   text-align: center;
-  margin-top: 3rem;
-  font-size: 3rem;
+  margin-top: 30px;
 }
 
 .Admindashboard-link a {
-  color: #007bff;
   text-decoration: none;
-  font-weight: 600;
-  cursor: pointer;
-  transition: color 0.3s ease;
+  color: #007bff;
+  font-weight: 500;
 }
 
 .Admindashboard-link a:hover {
-  color: #0056b3;
+  text-decoration: underline;
 }

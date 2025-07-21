@@ -7,7 +7,6 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
 import * as XLSX from 'xlsx';
 
 interface TimeLog {
@@ -15,6 +14,8 @@ interface TimeLog {
   check_in: string;
   check_out: string | null;
   duration_minutes: number;
+  latitude?: number;
+  longitude?: number;
 }
 
 @Component({
@@ -73,12 +74,14 @@ export class AdminTimeLogsComponent implements OnInit {
 
   exportCSV(): void {
     try {
-      const headers = ['User', 'Check-in', 'Check-out', 'Duration (min)'];
+      const headers = ['User', 'Check-in', 'Check-out', 'Duration (min)', 'Latitude', 'Longitude'];
       const rows = this.logs.map(log => [
         log.full_name,
         log.check_in,
         log.check_out || '',
-        log.duration_minutes.toString()
+        log.duration_minutes.toString(),
+        log.latitude?.toString() || '',
+        log.longitude?.toString() || ''
       ]);
 
       const csv = [headers, ...rows]
@@ -100,12 +103,14 @@ export class AdminTimeLogsComponent implements OnInit {
 
       autoTable(doc, {
         startY: 20,
-        head: [['User', 'Check-in', 'Check-out', 'Duration (min)']],
+        head: [['User', 'Check-in', 'Check-out', 'Duration (min)', 'Latitude', 'Longitude']],
         body: this.logs.map(log => [
           log.full_name,
           log.check_in,
           log.check_out || '',
-          log.duration_minutes
+          log.duration_minutes,
+          log.latitude || '',
+          log.longitude || ''
         ])
       });
 
@@ -118,12 +123,14 @@ export class AdminTimeLogsComponent implements OnInit {
 
   exportExcel(): void {
     const worksheetData = [
-      ['User', 'Check-in', 'Check-out', 'Duration (min)'],
+      ['User', 'Check-in', 'Check-out', 'Duration (min)', 'Latitude', 'Longitude'],
       ...this.logs.map(log => [
         log.full_name,
         log.check_in,
         log.check_out || '',
-        log.duration_minutes || 0
+        log.duration_minutes || 0,
+        log.latitude || '',
+        log.longitude || ''
       ])
     ];
 
@@ -156,7 +163,7 @@ export class AdminTimeLogsComponent implements OnInit {
     }, 2 * 60 * 1000);
   }
 
-   Admindashboard(): void {
+  Admindashboard(): void {
     this.router.navigate(['/dashboard']);
   }
 }

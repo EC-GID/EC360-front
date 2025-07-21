@@ -46,45 +46,57 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
     this.timerSubscription?.unsubscribe();
   }
 
-  checkIn(): void {
+  async checkIn(): Promise<void> {
     this.loading = true;
-    this.http.post<any>(
-      'https://ec360-production.up.railway.app/check-in',
-      {},
-      { headers: this.getAuthHeaders() }
-    ).subscribe({
-      next: (res) => {
-        this.message = res.message;
-        this.status.checkedIn = true;
-        this.status.checkedOut = false;
-        this.loading = false;
-        this.fetchLogs();
-      },
-      error: (err) => {
-        this.message = err.error?.error || 'Check-in failed';
-        this.loading = false;
-      }
-    });
+    try {
+      const { latitude, longitude } = await this.getLocation();
+      this.http.post<any>(
+        'https://ec360-production.up.railway.app/check-in',
+        { latitude, longitude },
+        { headers: this.getAuthHeaders() }
+      ).subscribe({
+        next: (res) => {
+          this.message = res.message;
+          this.status.checkedIn = true;
+          this.status.checkedOut = false;
+          this.loading = false;
+          this.fetchLogs();
+        },
+        error: (err) => {
+          this.message = err.error?.error || 'Check-in failed';
+          this.loading = false;
+        }
+      });
+    } catch (error) {
+      this.message = 'Location access denied or unavailable';
+      this.loading = false;
+    }
   }
 
-  checkOut(): void {
+  async checkOut(): Promise<void> {
     this.loading = true;
-    this.http.post<any>(
-      'https://ec360-production.up.railway.app/check-out',
-      {},
-      { headers: this.getAuthHeaders() }
-    ).subscribe({
-      next: (res) => {
-        this.message = res.message;
-        this.status.checkedOut = true;
-        this.loading = false;
-        this.fetchLogs();
-      },
-      error: (err) => {
-        this.message = err.error?.error || 'Check-out failed';
-        this.loading = false;
-      }
-    });
+    try {
+      const { latitude, longitude } = await this.getLocation();
+      this.http.post<any>(
+        'https://ec360-production.up.railway.app/check-out',
+        { latitude, longitude },
+        { headers: this.getAuthHeaders() }
+      ).subscribe({
+        next: (res) => {
+          this.message = res.message;
+          this.status.checkedOut = true;
+          this.loading = false;
+          this.fetchLogs();
+        },
+        error: (err) => {
+          this.message = err.error?.error || 'Check-out failed';
+          this.loading = false;
+        }
+      });
+    } catch (error) {
+      this.message = 'Location access denied or unavailable';
+      this.loading = false;
+    }
   }
 
   goBack(): void {
@@ -147,6 +159,23 @@ export class TimeTrackerComponent implements OnInit, OnDestroy {
     this.currentDuration = isNaN(durationMs)
       ? 0
       : Math.floor(durationMs / 60000);
+  }
+
+  private getLocation(): Promise<{ latitude: number; longitude: number }> {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject('Geolocation not supported');
+      }
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          resolve({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          });
+        },
+        (err) => reject(err)
+      );
+    });
   }
 
   private getAuthHeaders(): HttpHeaders {
